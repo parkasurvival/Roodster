@@ -130,8 +130,10 @@ bot.on("message", async message => {
   let member = message.mentions.members.first();
   if(member) {
     if (message.mentions.members.first().hasPermission("ADMINISTRATOR")) {
-      message.delete();
-      message.channel.send(`Heyo, ${message.author.username}! Beheerders kun je helaas niet taggen. Voor hulp kun je altijd naar ons Tweeten of DM'en: http://bit.ly/roediediscordtwitter.`);
+      if(!message.author.hasPermission("MANAGE_MESSAGES")) {
+        message.delete();
+        message.channel.send(`Heyo, ${message.author.username}! Beheerders kun je helaas niet taggen. Voor hulp kun je altijd naar ons Tweeten of DM'en: http://bit.ly/roediediscordtwitter.`);
+      }
     }
   }
   //Smart assistant
@@ -149,11 +151,11 @@ bot.on("message", async message => {
     ch.send("Met mij gaat het goed, " + message.author.username + ". Met jou? 🤔😄");
     return false;
   }
-  if(m.includes(p) && m.includes("goed")) {
+  if(m.includes(p) && m.includes("goed" || "prima")) {
     ch.send("Fijn om te horen!");
     return false;
   }
-  if(m.includes(p) && m.includes("slecht")) {
+  if(m.includes(p) && m.includes("slecht" || "matig")) {
     ch.send(`Jammer... Misschien zal ${memes} je wat opvrolijken!`);
     return false;
   }
