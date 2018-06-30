@@ -82,6 +82,7 @@ bot.on("message", async message => {
       .addField("Reden", "Ongepast taalgebruik");;
 
       botbesturing.send(swearEmbed);
+      return false;
     }
   }
   if(reclame.some(word => message.content.toLowerCase().includes(word))) {
@@ -101,6 +102,7 @@ bot.on("message", async message => {
         .addField("Reden", "Reclame maken (overig)");
 
         botbesturing.send(reclameEmbed);
+        return false;
       }
     }
   }
@@ -120,6 +122,7 @@ bot.on("message", async message => {
       .addField("Reden", "Reclame maken (server invite)");
 
       botbesturing.send(inviteEmbed);
+      return false;
       }
     }
 
