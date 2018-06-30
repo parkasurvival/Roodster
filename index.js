@@ -159,9 +159,8 @@ bot.on("message", async message => {
     ch.send(`Jammer... Misschien zal ${memes} je wat opvrolijken!`);
     return false;
   }
-
   //Wie is wie
-  if(m.includes(p && "wie")) {
+  if(m.includes(p) && m.includes("wie")) {
     ch.send("Idk, ik vind hem ook een beetje stinken 🙃");
     return false;
   }
