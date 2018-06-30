@@ -1,14 +1,17 @@
 const botconfig = require("./botconfig.json");
 const Discord = require("discord.js");
 const fs = require("fs");
+const ms = require("ms");
 const bot = new Discord.Client({disableEveryone: true});
 bot.commands = new Discord.Collection();
+bot.assistant = new Discord.Collection();
+bot.automod = new Discord.Collection();
 
-
-const badwords = ['fuk', 'fuck', 'fkcing', 'nigg', 'neger', 'cunt' ,'cnut' ,'bitch' ,'dick' ,'d1ck' ,'pussy' ,'asshole' ,'b1tch' ,'b!tch', 'bitch' ,'blowjob' ,'cock' ,'c0ck' ,'kkr' ,'kanker' ,'tyfus' ,'tievus' ,'tiefus' ,'tering' ,'homo' ,'gay' ,'neuk' ,'neuke' ,'kankr' ,'kenker' ,'seks' ,'s3ks' ,'sperm' ,'orgasm' ,'fking' ,'fcking' ,'fckn', 'fuck', 'fucking' ,'fucken' ,'s3x' ,'j3w' ,'cameltoe' ,'oraal' ,'kutje' ,'orale' ,'klaarkomen' ,'cum' ,'anaal' ,'penis' ,'piemel' ,'piemol'];
+const badwords = ['hoer', 'test', 'fuk', 'fuck', 'fkcing', 'nigg', 'neger', 'cunt' ,'cnut' ,'bitch' ,'dick' ,'d1ck' ,'pussy' ,'asshole' ,'b1tch' ,'b!tch', 'bitch' ,'blowjob' ,'cock' ,'c0ck' ,'kkr' ,'kanker' ,'tyfus' ,'tievus' ,'tiefus' ,'tering' ,'homo' ,'gay' ,'neuk' ,'neuke' ,'kankr' ,'kenker' ,'seks' ,'s3ks' ,'sperm' ,'orgasm' ,'fking' ,'fcking' ,'fckn', 'fuck', 'fucking' ,'fucken' ,'s3x' ,'j3w' ,'cameltoe' ,'oraal' ,'kutje' ,'orale' ,'klaarkomen' ,'cum' ,'anaal' ,'penis' ,'piemel' ,'piemol'];
 const invites = ['discord.gg/', 'discordapp.com/invite']
 const reclame = ['youtube.com', 'youtu.be', 'twitch.tv']
 
+//laad commands in
 fs.readdir("./Commands/", (err, files) => {
   if(err) console.log(err);
   let jsfile = files.filter(f => f.split(".").pop() === "js");
@@ -34,7 +37,7 @@ bot.on("ready", async () => {
 bot.on("guildMemberAdd", member => {
   member.send("Welkom op de Roediementair Discord server! Ik ben de enige echte Roodster bot, en vanaf nu jouw persoonlijke assistent. 😎 Lees #welkom voordat je begint.\n\nHulp nodig? Typ '!help' in een willekeurig chatkanaal op onze server!");
 });
-
+//Commands en antiswear
 bot.on("message", async message => {
   if(message.author.bot) return;
   if (message.channel.type === "dm") return message.channel.send("Je kunt mij helaas geen DM's sturen. Heb je een vraag? Typ dan '!help' in een chatkanaal.");
@@ -44,16 +47,25 @@ bot.on("message", async message => {
   let roods = message.guild.channels.find(`name`, "roods-official");
   let subsnroods = message.guild.channels.find(`name`, "subs-en-roods");
   let twitchsubs = message.guild.channels.find(`name`, "twitchsubs-official");
+  let picturetalk = message.guild.channels.find(`name`, "picturetalk");
 
   let prefix = botconfig.prefix;
+  let p = botconfig.saprefix;
   let messageArray = message.content.split(" ")
   let cmd = messageArray[0];
   let args = messageArray.slice(1);
 
+  let ch = message.channel;
+
   let commandFile = bot.commands.get(cmd.slice(prefix.length));
   if(commandFile) commandFile.run(bot,message,args);
 
-  //Chat auto mod systeem
+  let modFile = bot.automod.get(message,args);
+  if(modFile) modFile.run(bot,message,args);
+
+  let assistantFile = bot.assistant.get(message,args);
+  if(assistantFile) assistantFile.run(bot,message,args);
+
   if(badwords.some(word => message.content.toLowerCase().includes(word))) {
     if(!message.member.hasPermission("ADMINISTRATOR")) {
       message.delete();
@@ -74,7 +86,7 @@ bot.on("message", async message => {
   }
   if(reclame.some(word => message.content.toLowerCase().includes(word))) {
     if(!message.member.hasPermission("ADMINISTRATOR")) {
-      if(message.channel != twitchclips || memes || roods || subsnroods || twitchsubs) {
+      if(message.channel != twitchclips || memes || roods || subsnroods || twitchsubs || picturetalk) {
         message.delete();
         message.author.send("Geen reclame!");
 
@@ -110,6 +122,44 @@ bot.on("message", async message => {
       botbesturing.send(inviteEmbed);
       }
     }
+
+  //verwijder beheerder mention
+  let member = message.mentions.members.first();
+  if(member) {
+    if (message.mentions.members.first().hasPermission("ADMINISTRATOR")) {
+      message.delete();
+      message.channel.send(`Heyo, ${message.author.username}! Beheerders kun je helaas niet taggen. Voor hulp kun je altijd naar ons Tweeten of DM'en: http://bit.ly/roediediscordtwitter.`);
+    }
+  }
+  //Smart assistant
+  const hoi = ['hoi', 'hallo', 'goededag', 'goedendag', 'heyo', 'yo', 'ik ben het'];
+  const hgh = ['hoe gaat het', 'hgh', 'what up', 'sup'];
+
+  let m = message.toString().toLowerCase();
+  //Groeten
+  if(hoi.some(word => message.content.toLowerCase().includes(word)) && message.toString().toLowerCase().includes(p)) {
+    ch.send("Heyo, " + message.author.username + ".");
+    return false;
+  }
+  //Hoe gaat het?
+  if(hgh.some(word => message.content.toLowerCase().includes(word)) && message.toString().toLowerCase().includes(p)) {
+    ch.send("Met mij gaat het goed, " + message.author.username + ". Met jou? 🤔😄");
+    return false;
+  }
+  if(m.includes(p) && m.includes("goed")) {
+    ch.send("Fijn om te horen!");
+    return false;
+  }
+  if(m.includes(p) && m.includes("slecht")) {
+    ch.send(`Jammer... Misschien zal ${memes} je wat opvrolijken!`);
+    return false;
+  }
+
+  //Wie is wie
+  if(m.includes(p && "wie")) {
+    ch.send("Idk, ik vind hem ook een beetje stinken 🙃");
+    return false;
+  }
 });
 
 bot.login (botconfig.token);

@@ -7,6 +7,7 @@ module.exports.run = async (bot, message, args) => {
   if(!reason) return message.channel.send("Je moet een reden opgeven. Gebruik: '!dm <persoon> <bericht>'.");
 
   user.send("Deze DM is afkomstig van een Moderator. Reageren op dit bericht heeft geen zin! **Bericht:**\n" + reason);
+  message.channel.send("DM verzonden.")
   message.delete();
 }
 
