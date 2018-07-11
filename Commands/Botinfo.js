@@ -9,9 +9,9 @@ module.exports.run = async (bot, message, args) => {
   .setThumbnail(boticon)
   .addField("Naam", bot.user.username)
   .addField("Geboren op", "2/6/2018 om 13:58")
-  .addField("Gewicht bij geboorte", "0,21 megabytes")
+  .addField("Gewicht bij geboorte", "217 kilobyte")
   .addField("Papa", "Brickconomy (Wouter)")
-  .addField("Leeftijd", "v1.0");
+  .addField("Leeftijd", "v1.2");
 
   return message.channel.send(botEmbed);
 }

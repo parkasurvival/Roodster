@@ -10,7 +10,7 @@ module.exports.run = async (bot, message, args) => {
   .addField("Geboren op", message.guild.createdAt)
   .addField("Leeft samen met", message.guild.memberCount + " mentairders, om precies te zijn. Da's veel. 😮");
 
-  message.channel.send(serverEmbed);
+  message.author.send(serverEmbed);
 }
 
 module.exports.help = {name: "serverinfo"}

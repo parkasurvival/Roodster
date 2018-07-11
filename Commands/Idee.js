@@ -3,7 +3,7 @@ const Discord = require("discord.js");
 module.exports.run = async (bot, message, args) => {
   let reportkanaal = message.guild.channels.find(`name`, "tips");
   let idea = args.join(" ");
-  if(!idea) return message.channel.send("Je moet een tip opgeven! Gebruik: '!tip <reden>'.");
+  if(!idea) return message.channel.send("Je moet een tip opgeven! Gebruik: '!idee <idee>'.");
 
   if(!reportkanaal) {
     message.channel.send("Fout: error 1 (kon kanaal niet vinden).");
