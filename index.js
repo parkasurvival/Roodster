@@ -38,6 +38,30 @@ bot.on("guildMemberAdd", member => {
   member.send("Welkom op de Roediementair Discord server! Ik ben de enige echte Roodster bot, en vanaf nu jouw persoonlijke assistent. 😎 Lees #welkom voordat je begint.\n\nHulp nodig? Typ '!help' in een willekeurig chatkanaal op onze server!");
 });
 //Commands en antiswear
+
+function getDateTime() {
+    var date = new Date();
+
+    var hour = date.getHours();
+    hour = (hour < 10 ? "0" : "") + hour;
+
+    var min  = date.getMinutes();
+    min = (min < 10 ? "0" : "") + min;
+
+    var sec  = date.getSeconds();
+    sec = (sec < 10 ? "0" : "") + sec;
+
+    var year = date.getFullYear();
+
+    var month = date.getMonth() + 1;
+    month = (month < 10 ? "0" : "") + month;
+
+    var day  = date.getDate();
+    day = (day < 10 ? "0" : "") + day;
+
+    return day + "/" + month + "/" + year + " om " + hour + ":" + min + " en " + sec + " seconden";
+}
+
 bot.on("message", async message => {
   if(message.author.bot) return;
   if (message.channel.type === "dm") return message.channel.send("Je kunt mij helaas geen DM's sturen. Heb je een vraag? Typ dan '!help' in een chatkanaal.");
@@ -130,38 +154,44 @@ bot.on("message", async message => {
   let member = message.mentions.members.first();
   if(member) {
     if (message.mentions.members.first().hasPermission("ADMINISTRATOR")) {
-      if(!message.author.hasPermission("MANAGE_MESSAGES")) {
+      if(!message.member.hasPermission("MANAGE_MESSAGES")) {
+        message.edit(".......");
         message.delete();
-        message.channel.send(`Heyo, ${message.author.username}! Beheerders kun je helaas niet taggen. Voor hulp kun je altijd naar ons Tweeten of DM'en: http://bit.ly/roediediscordtwitter.`);
+        message.channel.send(`Daar houd ik je even tegen, ${message.author.username}! Beheerders kun je helaas niet taggen. Voor hulp kun je altijd naar ons Tweeten of DM'en: http://bit.ly/roediediscordtwitter.`);
       }
     }
   }
   //Smart assistant
   const hoi = ['hoi', 'hallo', 'goededag', 'goedendag', 'heyo', 'yo', 'ik ben het'];
   const hgh = ['hoe gaat het', 'hgh', 'what up', 'sup'];
+  const tijd = ['hoe laat is het', 'welke tijd is het', 'wat tijd is het', 'hoe laat', 'wanneer leven we'];
+  const goed = ['goed', 'prima', 'niet slecht', 'lekker', 'nice', 'chill', 'super', 'abominabel']
+  const slecht = ['slecht', 'matig']
 
   let m = message.toString().toLowerCase();
   //Groeten
-  if(hoi.some(word => message.content.toLowerCase().includes(word)) && message.toString().toLowerCase().includes(p)) {
+  if(hoi.some(word => message.content.toLowerCase().includes(word)) && m.includes(p)) {
     ch.send("Heyo, " + message.author.username + ".");
     return false;
   }
-  //Hoe gaat het?
-  if(hgh.some(word => message.content.toLowerCase().includes(word)) && message.toString().toLowerCase().includes(p)) {
+  //vragen hoe het gaat
+  if(hgh.some(word => message.content.toLowerCase().includes(word)) && m.includes(p)) {
     ch.send("Met mij gaat het goed, " + message.author.username + ". Met jou? 🤔😄");
     return false;
   }
-  if(m.includes(p) && m.includes("goed" || "prima")) {
-    ch.send("Fijn om te horen!");
+  //vragen hoe laat het is
+  if(tijd.some(word => message.content.toLowerCase().includes(word)) && m.includes(p)) {
+    ch.send(`Het is nu ${getTimeDate()}.`);
     return false;
   }
-  if(m.includes(p) && m.includes("slecht" || "matig")) {
+  //zeggen tegen roodster dat het goed gaat
+  if(goed.some(word => message.content.toLowerCase().includes(word)) && m.includes(p)) {
+    ch.send("Chill man! Nice om te horen.");
+    return false;
+  }
+  //zeggen dat het slecht gaat tegen roodster
+  if(slecht.some(word => message.content.toLowerCase().includes(word)) && m.includes(p)) {
     ch.send(`Jammer... Misschien zal ${memes} je wat opvrolijken!`);
-    return false;
-  }
-  //Wie is wie
-  if(m.includes(p) && m.includes("wie")) {
-    ch.send("Idk, ik vind hem ook een beetje stinken 🙃");
     return false;
   }
 });
