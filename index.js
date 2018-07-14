@@ -72,6 +72,8 @@ bot.on("message", async message => {
   let subsnroods = message.guild.channels.find(`name`, "subs-en-roods");
   let twitchsubs = message.guild.channels.find(`name`, "twitchsubs-official");
   let picturetalk = message.guild.channels.find(`name`, "picturetalk");
+  let playlists = message.guild.channels.find(`name`, "spotify-playlists");
+  let fortniteinvite = message.guild.channels.find(`name`, "fortnite-invite");
 
   let prefix = botconfig.prefix;
   let p = botconfig.saprefix;
@@ -92,6 +94,7 @@ bot.on("message", async message => {
 
   if(badwords.some(word => message.content.toLowerCase().includes(word))) {
     if(!message.member.hasPermission("ADMINISTRATOR")) {
+      if(message.channel !== playlists) return;
       message.delete();
       message.author.send("Let een beetje op je taalgebruik. 😉");
 

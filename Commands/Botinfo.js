@@ -11,7 +11,7 @@ module.exports.run = async (bot, message, args) => {
   .addField("Geboren op", "2/6/2018 om 13:58")
   .addField("Gewicht bij geboorte", "217 kilobyte")
   .addField("Papa", "Brickconomy (Wouter)")
-  .addField("Leeftijd", "v1.3.0");
+  .addField("Leeftijd", "v1.3.1");
 
   return message.channel.send(botEmbed);
 }
