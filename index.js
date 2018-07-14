@@ -59,7 +59,7 @@ function getDateTime() {
     var day  = date.getDate();
     day = (day < 10 ? "0" : "") + day;
 
-    return day + "/" + month + "/" + year + " om " + hour + ":" + min + " en " + sec + " seconden";
+    return hour + ":" + min + " en " + sec + " seconden op " + day + "/" + month + "/" + year;
 }
 
 bot.on("message", async message => {
@@ -163,7 +163,7 @@ bot.on("message", async message => {
   }
   //Smart assistant
   const hoi = ['hoi', 'hallo', 'goededag', 'goedendag', 'heyo', 'yo', 'ik ben het'];
-  const hgh = ['hoe gaat het', 'hgh', 'what up', 'sup'];
+  const hgh = ['hoe gaat het', 'hgh', 'what up', 'sup', 'how ya doin'];
   const tijd = ['hoe laat is het', 'welke tijd is het', 'wat tijd is het', 'hoe laat', 'wanneer leven we'];
   const goed = ['goed', 'prima', 'niet slecht', 'lekker', 'nice', 'chill', 'super', 'abominabel']
   const slecht = ['slecht', 'matig']
@@ -181,7 +181,7 @@ bot.on("message", async message => {
   }
   //vragen hoe laat het is
   if(tijd.some(word => message.content.toLowerCase().includes(word)) && m.includes(p)) {
-    ch.send(`Het is nu ${getTimeDate()}.`);
+    ch.send(`Het is nu ${getDateTime()}.`);
     return false;
   }
   //zeggen tegen roodster dat het goed gaat
