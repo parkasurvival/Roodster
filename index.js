@@ -74,6 +74,7 @@ bot.on("message", async message => {
   let picturetalk = message.guild.channels.find(`name`, "picturetalk");
   let playlists = message.guild.channels.find(`name`, "spotify-playlists");
   let fortniteinvite = message.guild.channels.find(`name`, "fortnite-invite");
+  let videosuggesties = message.guild.channels.find(`name`, "video-suggesties");
 
   let prefix = botconfig.prefix;
   let p = botconfig.saprefix;
@@ -114,7 +115,7 @@ bot.on("message", async message => {
   }
   if(reclame.some(word => message.content.toLowerCase().includes(word))) {
     if(!message.member.hasPermission("ADMINISTRATOR")) {
-      if(message.channel != twitchclips || memes || roods || subsnroods || twitchsubs || picturetalk) {
+      if (message.channel != twitchclips && message.channel != memes && message.channel != roods && message.channel != subsnroods && message.channel != twitchsubs && message.channel != picturetalk) {
         message.delete();
         message.author.send("Geen reclame!");
 
@@ -130,6 +131,8 @@ bot.on("message", async message => {
 
         botbesturing.send(reclameEmbed);
         return false;
+      } else {
+        return;
       }
     }
   }
@@ -158,9 +161,10 @@ bot.on("message", async message => {
   if(member) {
     if (message.mentions.members.first().hasPermission("ADMINISTRATOR")) {
       if(!message.member.hasPermission("MANAGE_MESSAGES")) {
-        message.edit(".......");
-        message.delete();
-        message.channel.send(`Daar houd ik je even tegen, ${message.author.username}! Beheerders kun je helaas niet taggen. Voor hulp kun je altijd naar ons Tweeten of DM'en: http://bit.ly/roediediscordtwitter.`);
+        if(message.channel != videosuggesties) {
+          message.delete();
+          message.channel.send(`Daar houd ik je even tegen, ${message.author.username}! Beheerders kun je helaas niet taggen. Voor hulp kun je altijd naar ons Tweeten of DM'en: http://bit.ly/roediediscordtwitter.`);
+        }
       }
     }
   }
