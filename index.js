@@ -75,6 +75,7 @@ bot.on("message", async message => {
   let playlists = message.guild.channels.find(`name`, "spotify-playlists");
   let fortniteinvite = message.guild.channels.find(`name`, "fortnite-invite");
   let videosuggesties = message.guild.channels.find(`name`, "video-suggesties");
+  let roediememes = message.guild.channels.find(`name`, "roedie-memes-video");
 
   let prefix = botconfig.prefix;
   let p = botconfig.saprefix;
@@ -115,7 +116,7 @@ bot.on("message", async message => {
   }
   if(reclame.some(word => message.content.toLowerCase().includes(word))) {
     if(!message.member.hasPermission("ADMINISTRATOR")) {
-      if (message.channel != twitchclips && message.channel != memes && message.channel != roods && message.channel != subsnroods && message.channel != twitchsubs && message.channel != picturetalk) {
+      if (message.channel != twitchclips && message.channel != memes && message.channel != roods && message.channel != subsnroods && message.channel != twitchsubs && message.channel != picturetalk && message.channel != roediememes) {
         message.delete();
         message.author.send("Geen reclame!");
 
@@ -155,7 +156,6 @@ bot.on("message", async message => {
       return false;
       }
     }
-
   //verwijder beheerder mention
   let member = message.mentions.members.first();
   if(member) {

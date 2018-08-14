@@ -6,7 +6,7 @@ let reports = JSON.parse(fs.readFileSync("./Reports.json", "utf8"))
 module.exports.run = async (bot, message, args) => {
   if(!message.member.hasPermission("MANAGE_MESSAGES")) return message.channel.send("Ik heb zo'n flauw gevoel dat jij geen Moderator bent!");
   let botbesturing = message.guild.channels.find(`name`, "botbesturing");
-  if(!args[0]) return botbesturing.send("Geef een gebruiker op om te muten.")
+  if(!args[0]) return botbesturing.send("Geef een gebruiker op om te unmuten.")
   let tounmute = message.guild.member(message.mentions.users.first() || message.guild.members.get(args[0]));
   let muterole = message.guild.roles.find(`name`, "Gemute");
   if(message.channel == botbesturing) {
