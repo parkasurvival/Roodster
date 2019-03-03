@@ -28,7 +28,7 @@ fs.readdir("./Commands/", (err, files) => {
 
 bot.on("ready", async () => {
   console.log("Bot is online!");
-  bot.user.setActivity("Roedie", {type: "WATCHING"});
+  bot.user.setActivity("Roediementair", {type: "WATCHING"});
   /*/bot.user.setStatus("dnd")
   .then(console.log)
   .catch(console.error);/*/
@@ -198,7 +198,10 @@ bot.on("message", async message => {
   }
   //zeggen dat het slecht gaat tegen roodster
   if(slecht.some(word => message.content.toLowerCase().includes(word)) && m.includes(p)) {
-    ch.send(`Jammer... Misschien zal ${👌memes} je wat opvrolijken!`);
+    ch.send(`Jammer... Nou ja de tering maar ik kan je niet helpen hihi`);
+    return false;
+  } else {
+    ch.send("Idk wat je precies zei daar, maar ik ben te dom om dat te snappen. Wouter is de beste beheerder ooit btw");
     return false;
   }
 });
