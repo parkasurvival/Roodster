@@ -198,7 +198,7 @@ bot.on("message", async message => {
   }
   //zeggen dat het slecht gaat tegen roodster
   if(slecht.some(word => message.content.toLowerCase().includes(word)) && m.includes(p)) {
-    ch.send(`Jammer... Misschien zal ${memes} je wat opvrolijken!`);
+    ch.send(`Jammer... Misschien zal ${👌memes} je wat opvrolijken!`);
     return false;
   }
 });
