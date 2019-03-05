@@ -200,8 +200,8 @@ bot.on("message", async message => {
   if(slecht.some(word => message.content.toLowerCase().includes(word)) && m.includes(p)) {
     ch.send(`Jammer... Nou ja de tering maar ik kan je niet helpen hihi`);
     return false;
-  } else {
-    ch.send("Idk wat je precies zei daar, maar ik ben te dom om dat te snappen. Wouter is de beste beheerder ooit btw");
+  } else if(m.includes(p)) {
+    ch.send("Idk wat je precies zei daar, maar ik ben te dom om dat te snappen. Wouter is beste beheerder ooit btw");
     return false;
   }
 });
